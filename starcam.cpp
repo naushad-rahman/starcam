@@ -1,6 +1,6 @@
 // starcam.cpp : Defines the entry point for the console application.
 // 
-// LUFT UND RAUMFAHRTDYNAMIK ÜBUNG 3
+// LUFT UND RAUMFAHRTDYNAMIK 
 // WS 12/13
 // Eric Reinthal, Pouyan Azari, Serkan Dikmen
 // Dezember 2012
@@ -58,7 +58,7 @@ void deletematrix(double **m, int y) {
     delete m;
 }
 
-//länge eines vektors berechnen
+//lï¿½nge eines vektors berechnen
 double v_length(vec3d v) {
 	return sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
 }
@@ -86,7 +86,7 @@ double dot_product(vec3d v1, vec3d v2) {
 //bild einlesen und daten speichern
 pixel** read_img(vector<unsigned char>& head) {
 	cout << "Lese Bild ein..." << endl;
-	//bild öffnen
+	//bild ï¿½ffnen
 	ifstream img;
 	img.open(IMAGEFILE, fstream::binary);
 	//begnn der pixel
@@ -142,7 +142,7 @@ void write_img(int** data, vector<unsigned char> head, string filename) {
 	o.close();
 }
 
-//prüft, ob eine operation auf ein bild im Bereich der Pixel geschieht
+//prï¿½ft, ob eine operation auf ein bild im Bereich der Pixel geschieht
 bool valid_range(int x, int y) {
 	if (x>XDIM || x<0 || y>YDIM || y<0)
 		return false;
@@ -174,11 +174,11 @@ vector<coord> star_emphasises(int** data, vector<unsigned char> head) {
 			roi_map[y][x] = 0;
 
 	int roundmax; //helligkeit des aktuellen pixels
-	int count = 0; //counter für die sterne
-	int roundmaxnew; //evtl größere helligkeit eines Nachbarpixels
+	int count = 0; //counter fï¿½r die sterne
+	int roundmaxnew; //evtl grï¿½ï¿½ere helligkeit eines Nachbarpixels
 	double max_rel; //relative helligkeit des pixels (im bezug auf hellsten)
 	coordint max; //Hauptpixel des aktuellen ROI-Feldes
-	int roisize; //Größe des ROI (Abh von max_rel)
+	int roisize; //Grï¿½ï¿½e des ROI (Abh von max_rel)
 	coord ecoord; //berechnete Schwerpunktkoordinate
 	double ecoord_num_x; //Hilfsvariablen zur Schwerpunktberechnung
 	double ecoord_denom_x;
@@ -207,7 +207,7 @@ vector<coord> star_emphasises(int** data, vector<unsigned char> head) {
 					//relative helligkeit des sterns
 					max_rel = (double)(roundmaxnew-bright_min)/(bright_max-bright_min);
 
-					//punkte je nach helligkeit in der ROI-Map markieren und schwerpunkt berechnen mit hilfe der Formel aus der Vorlesung für Advanced ROI
+					//punkte je nach helligkeit in der ROI-Map markieren und schwerpunkt berechnen mit hilfe der Formel aus der Vorlesung fï¿½r Advanced ROI
 					if (max_rel >= 3.0/4.0)
 						roisize=9;
 					else if (max_rel >= 1.1/2.0)
@@ -235,9 +235,9 @@ vector<coord> star_emphasises(int** data, vector<unsigned char> head) {
 					ecoord.x = ecoord_num_x/ecoord_denom_x;
 					ecoord.y = ecoord_num_y/ecoord_denom_y;
 
-					//punkt in vector der Schwerpunktliste einfügen
+					//punkt in vector der Schwerpunktliste einfï¿½gen
 					e.push_back(ecoord);
-					//zähler der sterne
+					//zï¿½hler der sterne
 					count++;
 					//cout << count << ": " << ecoord.x << " / " << ecoord.y << endl;
 				}
@@ -247,7 +247,7 @@ vector<coord> star_emphasises(int** data, vector<unsigned char> head) {
 	return e;
 }
 
-//zentralen stern herausfinden und diesen aus der starlist löschen
+//zentralen stern herausfinden und diesen aus der starlist lï¿½schen
 coord central_star (vector<coord>* starlist) {
 	cout << "Finde zentralen Stern heraus..." << endl;
 	coord c;
@@ -257,7 +257,7 @@ coord central_star (vector<coord>* starlist) {
 	double mindistance = -1.0;
 	m.x=XDIM/2;
 	m.y=YDIM/2;
-	//iterator zwischenspeichern, um stern später zu löschen aus der liste
+	//iterator zwischenspeichern, um stern spï¿½ter zu lï¿½schen aus der liste
 	vector<coord>::iterator itmin;
 	for (vector<coord>::iterator it = (*starlist).begin(); it != (*starlist).end(); it++) {
 		distance = sqrt(pow((*it).x-m.x,2) + pow((*it).y-m.y,2));
@@ -276,7 +276,7 @@ coord central_star (vector<coord>* starlist) {
 //alle alpha_i zwischen Mittelpunktstern und den Sternen der Liste berechnen (in rad)
 vector<double> calc_alpha_i (vector<coord> starlist, coord central_star) {
 	cout << "Berechne Alpha_i ..." << endl;
-	vector<double> alpha; //rückgabevektor
+	vector<double> alpha; //rï¿½ckgabevektor
 	double angle; //einzelne winkel
 	double dist_st1_st2; //abstand stern zu Mittelpunktstern
 	double dist_st1_cam; //abstand Mittelpunktstern zu Camera
@@ -296,7 +296,7 @@ vector<double> calc_alpha_i (vector<coord> starlist, coord central_star) {
 angle_triple get_angles (vector<coord> starlist, vector<double> alphalist, coord central_star, coord* id2_coord) {
 	cout << "Berechne 3 Winkel aus dem Bild (in rad)..." << endl;
 	angle_triple res;
-	//alphalist nach 2 kleinsten winkeln durchsuchen und zugehörige koordinaten speichern
+	//alphalist nach 2 kleinsten winkeln durchsuchen und zugehï¿½rige koordinaten speichern
 	coord star1;
 	coord star2;
 	double alpha1=1000;
@@ -337,7 +337,7 @@ angle_triple get_angles (vector<coord> starlist, vector<double> alphalist, coord
 	return res;
 }
 
-//gibt sternenvektoren zurück (2 aus Datenbank (IDs übergeben) und die 2 entsprechenden aus dem Bild (2 coordinaten übergeben))
+//gibt sternenvektoren zurï¿½ck (2 aus Datenbank (IDs ï¿½bergeben) und die 2 entsprechenden aus dem Bild (2 coordinaten ï¿½bergeben))
 //vektoren v:bild w:db
 void generate_starvector (vec3d* v1, vec3d* v2, vec3d* w1, vec3d* w2, double id1, double id2, coord c1, coord c2, Database* dbhandle) {
 	//vektoren aus der DB holen
@@ -353,7 +353,7 @@ void generate_starvector (vec3d* v1, vec3d* v2, vec3d* w1, vec3d* w2, double id1
 	coord center;
 	center.x = XDIM/2;
 	center.y = YDIM/2;
-	//abstand = pxielentfernung*pixelgröße
+	//abstand = pxielentfernung*pixelgrï¿½ï¿½e
 	b1.x = abs(center.x-c1.x)*PIXEL_SIZE;
 	b2.x = abs(center.x-c2.x)*PIXEL_SIZE;
 	b1.y = abs(center.y-c1.y)*PIXEL_SIZE;
@@ -439,7 +439,7 @@ int main(int argc, char* argv[])
 	 
 	//schwerpunkt der sterne herausfinden und in liste speichern
 	vector<coord> star_emphasis_list = star_emphasises(image_grey, image_header);
-	//zentralen stern heruasfinden und diesen stern aus star_emphasis löschen
+	//zentralen stern heruasfinden und diesen stern aus star_emphasis lï¿½schen
 	coord central = central_star(&star_emphasis_list);
 
 	//alle winkel alpha_i im bild berechnen
